@@ -110,3 +110,112 @@
     margin-bottom:22px;
   }
 }
+
+/* =========================================================
+   CORRECCIÓN FINAL: IMÁGENES GRANDES SIN ESTIRAR NI RECORTAR
+   ========================================================= */
+.modal-panel{
+  width:min(1320px,96vw);
+  max-height:94vh;
+  display:grid;
+  grid-template-columns:1fr;
+  overflow:auto;
+}
+
+.modal-visual{
+  width:100%;
+  height:auto;
+  min-height:0;
+  aspect-ratio:16 / 9;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background:#020915;
+  border-radius:34px 34px 0 0;
+}
+
+.modal-visual img{
+  width:100%;
+  height:100%;
+  max-width:100%;
+  max-height:100%;
+  display:block;
+  object-fit:contain;
+  object-position:center;
+  transform:none !important;
+  filter:none !important;
+  image-rendering:auto;
+}
+
+.modal-content{
+  padding:38px clamp(26px,5vw,64px) 48px;
+}
+
+/* Evita que el fondo principal se amplíe más de lo necesario */
+.hero{
+  background-color:#06152d;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:cover;
+}
+
+@media (max-width:800px){
+  .modal-panel{width:96vw}
+  .modal-visual{aspect-ratio:16 / 10}
+  .modal-visual img{object-fit:contain}
+}
+
+
+/* AJUSTE FINAL DE LA IMAGEN GRANDE DEL PROGRAMA
+   La fotografía se presenta como banner, sin estirarse y recortando
+   las zonas laterales que contienen elementos incrustados no deseados. */
+.modal-panel{
+  width:min(1280px,96vw) !important;
+  max-height:92vh !important;
+  overflow:auto !important;
+  grid-template-columns:1fr !important;
+}
+.modal-visual{
+  position:relative !important;
+  width:100% !important;
+  height:clamp(300px,42vw,500px) !important;
+  min-height:0 !important;
+  aspect-ratio:auto !important;
+  overflow:hidden !important;
+  background:#06152d !important;
+  border-radius:34px 34px 0 0 !important;
+}
+.modal-visual::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(90deg,rgba(2,10,24,.28),transparent 30%,transparent 75%,rgba(2,10,24,.15));
+}
+.modal-visual img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  transform:none !important;
+  filter:none !important;
+  image-rendering:auto !important;
+}
+/* Seguridad Comunitaria: recorta el costado izquierdo donde venía
+   incrustado el escudo incorrecto. El logo correcto aparece abajo
+   desde assets/logos/pscc.jpg. */
+.modal-visual img[data-program="pscc"]{
+  object-position:72% center !important;
+}
+.modal-content{
+  position:relative !important;
+  z-index:2 !important;
+  padding:38px clamp(26px,5vw,64px) 48px !important;
+}
+.modal-logo{
+  object-fit:contain !important;
+  background:#fff !important;
+}
+@media(max-width:800px){
+  .modal-visual{height:260px !important;}
+}
