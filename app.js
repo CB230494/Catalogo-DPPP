@@ -1,9 +1,9 @@
 const programs = [
-  {id:'dare', title:'D.A.R.E.', short:'Educación para decisiones seguras y responsables.', description:'Programa educativo orientado a fortalecer habilidades para la toma de decisiones, la prevención y la construcción de estilos de vida saludables.', position:'center'},
-  {id:'great', title:'G.R.E.A.T.', short:'Educación y entrenamiento para resistir las pandillas.', description:'Programa preventivo que promueve habilidades sociales, resolución de conflictos, convivencia y resistencia ante factores de riesgo asociados con pandillas.', position:'center'},
-  {id:'mpas', title:'Primera Aventura en Seguridad', short:'Aprendizaje preventivo desde las primeras etapas.', description:'Espacio educativo para acercar a niñas y niños a conocimientos básicos de seguridad, autocuidado, prevención de riesgos y convivencia.', position:'center'},
-  {id:'pscc', title:'Seguridad Comunitaria', short:'Comunidades organizadas para una convivencia más segura.', description:'Programa que impulsa la organización vecinal, la participación ciudadana y el trabajo conjunto con la policía para fortalecer la prevención comunitaria.', position:'center'},
-  {id:'vifa', title:'VIFA', short:'Prevención de la violencia intrafamiliar.', description:'Programa de información, sensibilización y orientación para prevenir la violencia intrafamiliar y promover relaciones basadas en el respeto y la protección.', position:'center'}
+  {id:'dare', modalPosition:'58% center', title:'D.A.R.E.', short:'Educación para decisiones seguras y responsables.', description:'Programa educativo orientado a fortalecer habilidades para la toma de decisiones, la prevención y la construcción de estilos de vida saludables.', position:'center'},
+  {id:'great', modalPosition:'62% center', title:'G.R.E.A.T.', short:'Educación y entrenamiento para resistir las pandillas.', description:'Programa preventivo que promueve habilidades sociales, resolución de conflictos, convivencia y resistencia ante factores de riesgo asociados con pandillas.', position:'center'},
+  {id:'mpas', modalPosition:'68% center', title:'Primera Aventura en Seguridad', short:'Aprendizaje preventivo desde las primeras etapas.', description:'Espacio educativo para acercar a niñas y niños a conocimientos básicos de seguridad, autocuidado, prevención de riesgos y convivencia.', position:'center'},
+  {id:'pscc', modalPosition:'72% center', title:'Seguridad Comunitaria', short:'Comunidades organizadas para una convivencia más segura.', description:'Programa que impulsa la organización vecinal, la participación ciudadana y el trabajo conjunto con la policía para fortalecer la prevención comunitaria.', position:'center'},
+  {id:'vifa', modalPosition:'68% center', title:'VIFA', short:'Prevención de la violencia intrafamiliar.', description:'Programa de información, sensibilización y orientación para prevenir la violencia intrafamiliar y promover relaciones basadas en el respeto y la protección.', position:'center'}
 ];
 
 let current = 2;
@@ -88,8 +88,11 @@ function resetTimer() {
 }
 
 function openProgram(p) {
-  document.querySelector('#modalBg').src = `assets/backgrounds/${p.id}.jpg`;
-  document.querySelector('#modalBg').alt = `Imagen del programa ${p.title}`;
+  const modalBg = document.querySelector('#modalBg');
+  modalBg.src = `assets/backgrounds/${p.id}.jpg?v=final3`;
+  modalBg.alt = `Imagen del programa ${p.title}`;
+  modalBg.style.objectPosition = p.modalPosition || 'center';
+  modalBg.dataset.program = p.id;
   document.querySelector('#modalLogo').src = `assets/logos/${p.id}.jpg`;
   document.querySelector('#modalLogo').alt = `Logo del programa ${p.title}`;
   document.querySelector('#modalTitle').textContent = p.title;
