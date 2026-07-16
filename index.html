@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#06152d">
+  <title>Caja de Herramientas | Programas Preventivos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="Inicio">
+      <span class="brand-mark">FP</span>
+      <span><strong>Caja de Herramientas</strong><small>Programas Preventivos</small></span>
+    </a>
+    <nav><a href="#inicio">Inicio</a><a href="#programas">Programas</a><a href="#proposito">Propósito</a></nav>
+    <button class="menu-btn" aria-label="Abrir menú">☰</button>
+  </header>
+
+  <main id="inicio">
+    <section class="hero">
+      <div class="hero-shade"></div>
+      <div class="hero-copy">
+        <span class="eyebrow">MINISTERIO DE SEGURIDAD PÚBLICA</span>
+        <h1>Caja de Herramientas<br><em>Programas Preventivos</em></h1>
+        <p>Un espacio digital para consultar materiales, videos, juegos, documentos y recursos de apoyo de los programas preventivos.</p>
+        <a class="primary" href="#programas">Explorar programas <span>→</span></a>
+      </div>
+      <div class="scroll-hint">DESLIZA PARA EXPLORAR <span>↓</span></div>
+    </section>
+
+    <section id="programas" class="program-section">
+      <div class="section-heading">
+        <div><span class="eyebrow">NUESTROS PROGRAMAS</span><h2>Selecciona una experiencia</h2></div>
+        <p>Cada espacio mostrará recursos organizados por programa. Esta primera versión presenta la estructura visual; el contenido se incorporará posteriormente.</p>
+      </div>
+
+      <div class="slider-shell">
+        <button class="nav-arrow prev" aria-label="Anterior">‹</button>
+        <div id="slider" class="slider" aria-live="polite"></div>
+        <button class="nav-arrow next" aria-label="Siguiente">›</button>
+      </div>
+      <div id="dots" class="dots"></div>
+    </section>
+
+    <section id="proposito" class="purpose">
+      <div class="purpose-card">
+        <span class="eyebrow">UNA PLATAFORMA EN CRECIMIENTO</span>
+        <h2>Todo el material preventivo, en un solo lugar.</h2>
+        <p>En las próximas etapas, cada programa contará con documentos, hojas de trabajo, videos, enlaces, juegos y otros recursos de consulta. La plataforma está preparada para conectarse posteriormente con ArcGIS.</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="programModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <article class="modal-panel">
+      <button class="modal-close" data-close aria-label="Cerrar">×</button>
+      <div class="modal-visual"><img id="modalBg" alt=""></div>
+      <div class="modal-content">
+        <img id="modalLogo" class="modal-logo" alt="">
+        <span class="eyebrow">ESPACIO DEL PROGRAMA</span>
+        <h2 id="modalTitle"></h2>
+        <p id="modalDescription"></p>
+        <div class="coming"><strong>Próximamente</strong><span>Aquí encontrará información, documentos, videos, juegos y recursos relacionados con este programa.</span></div>
+        <button class="secondary" data-close>Volver a los programas</button>
+      </div>
+    </article>
+  </div>
+
+  <footer><span>Programas Preventivos · Costa Rica</span><span>Versión inicial de la Caja de Herramientas</span></footer>
+  <script src="app.js"></script>
+</body>
+</html>
