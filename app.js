@@ -38,7 +38,7 @@ function render() {
     card.style.filter = d === 0 ? 'none' : `brightness(${Math.max(.58, .82 - Math.abs(d) * .06)})`;
 
     card.innerHTML = `
-      <img class="cover" src="assets/backgrounds/${p.id}.jpg" alt="${p.title}" loading="eager" decoding="async" style="object-position:${p.position}">
+      <img class="cover" src="assets/cards/${p.id}.jpg" alt="${p.title}" loading="eager" decoding="async" style="object-position:${p.position}">
       <div class="card-copy">
         <span class="number">0${i + 1} · PROGRAMA</span>
         <h3>${p.title}</h3>
@@ -117,6 +117,10 @@ document.addEventListener('keydown', e => {
 ['principal', ...programs.map(p => p.id)].forEach(name => {
   const image = new Image();
   image.src = `assets/backgrounds/${name}.jpg`;
+});
+programs.forEach(p => {
+  const image = new Image();
+  image.src = `assets/cards/${p.id}.jpg`;
 });
 
 render();
