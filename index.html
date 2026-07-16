@@ -1,77 +1,76 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#06152d">
-  <title>Caja de Herramientas | Programas Preventivos</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Express Local Push Test</title>
+  <link rel="manifest" href="/manifest.json" />
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="#inicio" aria-label="Inicio">
-      <span class="brand-mark">FP</span>
-      <span><strong>Caja de Herramientas</strong><small>Programas Preventivos</small></span>
-    </a>
-    <nav><a href="#inicio">Inicio</a><a href="#programas">Programas</a><a href="#proposito">Propósito</a></nav>
-    <button class="menu-btn" aria-label="Abrir menú">☰</button>
-  </header>
+  <h1>Express Local Push Test</h1>
+  <p>Prueba limpia de notificaciones push.</p>
+  <button id="btn">Activar notificaciones</button>
+  <pre id="salida"></pre>
 
-  <main id="inicio">
-    <section class="hero">
-      <div class="hero-shade"></div>
-      <div class="hero-copy">
-        <span class="eyebrow">MINISTERIO DE SEGURIDAD PÚBLICA</span>
-        <h1>Caja de Herramientas<br><em>Programas Preventivos</em></h1>
-        <p>Un espacio digital para consultar materiales, videos, juegos, documentos y recursos de apoyo de los programas preventivos.</p>
-        <a class="primary" href="#programas">Explorar programas <span>→</span></a>
-      </div>
-      <div class="scroll-hint">DESLIZA PARA EXPLORAR <span>↓</span></div>
-    </section>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-messaging.js";
 
-    <section id="programas" class="program-section">
-      <div class="section-heading">
-        <div><span class="eyebrow">NUESTROS PROGRAMAS</span><h2>Selecciona una experiencia</h2></div>
-        <p>Cada espacio mostrará recursos organizados por programa. Esta primera versión presenta la estructura visual; el contenido se incorporará posteriormente.</p>
-      </div>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCQfbLIlHZ18BNBqKAxIRY7HHd_QcQbpxg",
+      authDomain: "express-local-push-test.firebaseapp.com",
+      projectId: "express-local-push-test",
+      storageBucket: "express-local-push-test.firebasestorage.app",
+      messagingSenderId: "895952227571",
+      appId: "1:895952227571:web:53b7cbc65e2acc69993b86"
+    };
 
-      <div class="slider-shell">
-        <button class="nav-arrow prev" aria-label="Anterior">‹</button>
-        <div id="slider" class="slider" aria-live="polite"></div>
-        <button class="nav-arrow next" aria-label="Siguiente">›</button>
-      </div>
-      <div id="dots" class="dots"></div>
-    </section>
+    const vapidKey = "BDAeUsGr4l__q54Crj0gZpmhIrGex_Yr3bBZljhB1JB7zFvFIR-V0IzwRCZNo3OifsvRNCF0lWyuW9gY-9AK_c8";
 
-    <section id="proposito" class="purpose">
-      <div class="purpose-card">
-        <span class="eyebrow">UNA PLATAFORMA EN CRECIMIENTO</span>
-        <h2>Todo el material preventivo, en un solo lugar.</h2>
-        <p>En las próximas etapas, cada programa contará con documentos, hojas de trabajo, videos, enlaces, juegos y otros recursos de consulta. La plataforma está preparada para conectarse posteriormente con ArcGIS.</p>
-      </div>
-    </section>
-  </main>
+    const app = initializeApp(firebaseConfig);
+    const messaging = getMessaging(app);
+    const salida = document.getElementById("salida");
 
-  <div id="programModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-backdrop" data-close></div>
-    <article class="modal-panel">
-      <button class="modal-close" data-close aria-label="Cerrar">×</button>
-      <div class="modal-visual"><img id="modalBg" alt=""></div>
-      <div class="modal-content">
-        <img id="modalLogo" class="modal-logo" alt="">
-        <span class="eyebrow">ESPACIO DEL PROGRAMA</span>
-        <h2 id="modalTitle"></h2>
-        <p id="modalDescription"></p>
-        <div class="coming"><strong>Próximamente</strong><span>Aquí encontrará información, documentos, videos, juegos y recursos relacionados con este programa.</span></div>
-        <button class="secondary" data-close>Volver a los programas</button>
-      </div>
-    </article>
-  </div>
+    document.getElementById("btn").addEventListener("click", async () => {
+      try {
+        salida.textContent = "Solicitando permiso...";
 
-  <footer><span>Programas Preventivos · Costa Rica</span><span>Versión inicial de la Caja de Herramientas</span></footer>
-  <script src="app.js"></script>
+        const permission = await Notification.requestPermission();
+
+        if (permission !== "granted") {
+          salida.textContent = "Permiso denegado.";
+          return;
+        }
+
+        salida.textContent = "Registrando service worker...";
+
+        const registration = await navigator.serviceWorker.register("/firebase-messaging-sw.js");
+        await navigator.serviceWorker.ready;
+
+        salida.textContent = "Generando token...";
+
+        const token = await getToken(messaging, {
+          vapidKey: vapidKey,
+          serviceWorkerRegistration: registration
+        });
+
+        salida.textContent = "TOKEN DEL DISPOSITIVO:\n\n" + token;
+        console.log("TOKEN DEL DISPOSITIVO:", token);
+        alert("Token generado correctamente.");
+
+      } catch (error) {
+        console.error("Error al activar notificaciones:", error);
+        salida.textContent = "ERROR:\n" + error.message;
+      }
+    });
+
+    onMessage(messaging, (payload) => {
+      const titulo = payload.notification?.title || "Express Local";
+      const cuerpo = payload.notification?.body || "Nueva notificación";
+
+      new Notification(titulo, { body: cuerpo });
+      alert(titulo + "\n" + cuerpo);
+    });
+  </script>
 </body>
 </html>
